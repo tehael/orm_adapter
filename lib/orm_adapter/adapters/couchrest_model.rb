@@ -3,8 +3,12 @@ require 'couchrest_model'
 module CouchRest
   module Model
     class Base
-      module ClassMethods
-        include OrmAdapter::ToAdapter
+      extend OrmAdapter::ToAdapter
+
+      def self.delete_all
+        all.each do |doc|
+          doc.destroy
+        end
       end
     
       class OrmAdapter < ::OrmAdapter::Base
