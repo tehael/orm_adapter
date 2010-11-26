@@ -28,14 +28,14 @@ module CouchRest
         end
 
         # Get an instance by id of the model
-        #def get!(id)
-        #  klass.find(wrap_key(id))
-        #end
+        def get!(id)
+          klass.find(wrap_key(id))
+        end
 
         # Get an instance by id of the model
-        #def get(id)
-        #  klass.first(:conditions => { :id => wrap_key(id) })
-        #end
+        def get(id)
+          klass.first(:conditions => { :id => wrap_key(id) })
+        end
 
         # Find the first instance matching conditions
         def find_first(conditions)
