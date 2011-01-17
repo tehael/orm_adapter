@@ -33,18 +33,24 @@ module CouchRest
         end
 
         # Get an instance by id of the model
-        def get(id)
-          klass.first(:conditions => { :id => wrap_key(id) })
-        end
+        alias :get :get!
 
         # Find the first instance matching conditions
         def find_first(conditions)
-          klass.first(:conditions => conditions_to_fields(conditions))
+          if conditions.keys.first == :id
+            get(conditions.values.first)
+          else
+            send("by_#{conditions.keys.first}", {:key => conditions.values.first, :limit => 1})
+          end
         end
-
+        
         # Find all models matching conditions
         def find_all(conditions)
-          klass.all(:conditions => conditions_to_fields(conditions))
+          if conditions.keys.first == :id
+            get(conditions.values.first)
+          else
+            send("by_#{conditions.keys.first}", {:key => conditions.values.first})
+          end
         end
 
         # Create a model with given attributes
